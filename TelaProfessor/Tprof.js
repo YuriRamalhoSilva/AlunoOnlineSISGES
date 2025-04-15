@@ -24,6 +24,48 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+
+
+
+// Seção Notas
+
+let form = document.getElementById('form-notas');
+form.addEventListener('submit', function(event){
+    event.preventDefault();
+    let dados = new FormData(event)
+    let hasError = false;
+
+        // console.log([
+        //     dados,
+        //     dados.get('pri-prova'),
+        //     dados.get('seg-prova'),
+        //     dados.get('nota'),
+        //     dados.get('conc'),
+        //     dados.get('trab')
+        // ])
+    
+
+    let  msgs = [];
+    if (dados.get('pri-prova').trim().length == 0) {
+        alert('coloque o valor')
+        hasError = true;
+        msgs.push("Adicione essa nota")
+
+    }
+    
+    else{
+        form.submit();
+    }
+
+})
+
+
+
+
+
+
+
+// Lista de Mensagens
 let dados = [];
 
 async function loadData() {
