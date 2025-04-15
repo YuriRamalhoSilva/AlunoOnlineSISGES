@@ -188,82 +188,93 @@ form{
 .div-msg {
     width: calc(100% - 40px);
 }
-ul#mensagem-lista {
-    background-color: white;
-    border: 1px solid #727272;
-    border-radius: 20px;
+
+#mensagem-lista {
     padding: 20px;
-    width: 100%;
-    list-style-type: none;
-    max-height: 300px;
+    border: 1px #727272 solid;
+    width: 700px;
+    max-height: 400px;
     overflow-y: auto;
-    padding-right: 10px;
 }
-ul#mensagem-lista::-webkit-scrollbar {
-    width: 6px;
-}
-ul#mensagem-lista::-webkit-scrollbar-track {
-    background: transparent;
-    left: 100px;
-    margin: 15px;
-    
-}
-ul#mensagem-lista::-webkit-scrollbar-thumb {
-    background-color: #7272725c; 
-    border-radius: 3px; 
-}
-li {
-    border: solid 1px #727272;
-    border-radius: 10px;
-    padding: 10px;
-    font-size: 15px;
-    margin-bottom: 5px;
+.accord-header-li {
+    background-color: aliceblue;
+    padding: 4px;
     height: 20px;
     cursor: pointer;
+    border-radius: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-weight: bold;
     transition: background-color 0.3s;
-    
+    transition: 0.5s;
 }
-li:hover{
-    background-color: white;
-    border-color: #000000;
-    border: 1.5px solid;
+.accord-header-li:hover{
+    background-color: #727272;
 }
-
-li::after{
+.accord-header-li::after{
     content: '+';
     font-size: 20px;
 }
-li.active::after{
+.accord-header-li.active::after{
     content: '-';
+    
+    
 }
-li span{
+.accord-header-li.active{
+    border-radius: 20px;
+    border-bottom-left-radius:0px ;
+    border-bottom-right-radius:0px ;
+    transition: 0.5s;
+    
+    
+}
+.accord-header-li span{
     flex-grow: 1;
     text-align: center;
 }
-#conversa-container {
-    margin-top: 20px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+
+.accord-container-li {
+    display: flex;
+    flex-direction: column;
+    row-gap: 3px;
+    margin-bottom: 5px;
+    
 }
-.accordion {
-    width: 100%;
+
+.accord-li {
+    width: calc(100% - 16px);
+    border:1px solid rgb(97, 97, 97);
+    border-radius: 10px;
+    overflow: hidden; 
 }
-.conversa{
+.accord-content-li {
     display: flex;
     flex-direction: row;
+    row-gap: 0px;
     max-height: 0;
-    background-color: aliceblue;
+    background-color: rgb(163, 163, 163);
     overflow: hidden;
     transition: max-height 0.3s ease-out;
+    border-bottom-left-radius:20px ;
+    border-bottom-right-radius:20px ;
+    row-gap: 10px;
 }
-.conversa.active{
+.accord-content-li.active{
     max-height: 2000px;
     padding: 20px;
+}
+
+.prioridade-0 {
+    background-color: rgb(147, 255, 147);
+}
+
+.prioridade-1 {
+    background-color: rgb(253, 255, 129);
+}
+
+.prioridade-2 {
+    background-color: rgb(255, 126, 126);
 }
 
 .btn-container{
@@ -285,14 +296,16 @@ button:hover{
     border-color: #000000;
     
 }
-.prioridade-0 {
-    background-color: rgb(147, 255, 147);
+ul#mensagem-lista::-webkit-scrollbar {
+    width: 6px;
 }
-
-.prioridade-1 {
-    background-color: rgb(253, 255, 129);
+ul#mensagem-lista::-webkit-scrollbar-track {
+    background: transparent;
+    left: 100px;
+    margin: 15px;
+    
 }
-
-.prioridade-2 {
-    background-color: rgb(255, 126, 126);
+ul#mensagem-lista::-webkit-scrollbar-thumb {
+    background-color: #7272725c; 
+    border-radius: 3px; 
 }
