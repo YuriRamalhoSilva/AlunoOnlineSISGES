@@ -218,9 +218,11 @@ td {
 }
 
 #mensagem-lista {
+    display: flex;
+    flex-direction: column;
     padding: 20px;
     border: 1px #727272 solid;
-    border-radius: 20px;
+    border-radius: 10px;
     width: 700px;
     max-height: 400px;
     overflow-y: auto;
@@ -271,7 +273,7 @@ td {
 }
 
 .accord-header-li.active {
-    border-radius: 20px;
+    border-radius: 10px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
@@ -284,7 +286,6 @@ td {
 .accord-container-li {
     display: flex;
     flex-direction: column;
-    row-gap: 3px;
     margin-bottom: 5px;
 }
 
@@ -299,31 +300,56 @@ td {
     display: flex;
     flex-direction: row;
     max-height: 0;
-    
     background-color: rgb(255, 255, 255);
     overflow: hidden;
     transition: 0.3s ease-out;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    justify-content: space-between;
 }
 
 .accord-content-li.active {
     max-height: 2000px;
-    padding: 20px;
+    padding: 10px;
     border: 1px solid rgb(97, 97, 97);
+    border-top: 0;
 }
+
+#modal-resp{
+    display: none;
+    padding: 20px;
+    border: 1px #727272 solid;
+    border-radius: 10px;
+    width: 700px;
+    height: 400px;
+    overflow-y: auto;
+    background-color: rgb(236, 236, 236);
+}
+.modal-resp {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
 
 /* Classes de prioridade */
 .prioridade-0 {
-    background-color: rgb(147, 255, 147);
+    background-color: rgb(190, 252, 190);
 }
 
 .prioridade-1 {
-    background-color: rgb(253, 255, 129);
+    background-color: rgb(252, 253, 184);
 }
 
 .prioridade-2 {
-    background-color: rgb(255, 126, 126);
+    background-color: rgb(252, 180, 180);
 }
 
 /* Estilos para botões */
@@ -348,6 +374,13 @@ button:hover {
     border-color: #000000;
 }
 
+.btnresp-container{
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    padding: 10px;
+    row-gap: 10px;
+}
 /* Estilos para lista temporária */
 ul#vali {
     padding: 20px;

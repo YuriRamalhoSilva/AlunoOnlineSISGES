@@ -75,6 +75,7 @@ async function loadData() {
     }
 }
 
+const containerLista = document.getElementById('div-msg');
 const lista = document.getElementById('mensagem-lista');
 
 function listaMsg(dados) {
@@ -94,6 +95,29 @@ function listaMsg(dados) {
         const content = document.createElement('div');
         content.classList.add('accord-content-li');
         content.innerHTML = `<p>${item.texto}</p>`;
+
+        // Cria botões na mensagem
+        const btnRespContainer = document.createElement('div');
+        btnRespContainer.classList.add('btnresp-container');
+        const btnResp = document.createElement('button');
+        const btnDel = document.createElement('button');
+        btnResp.textContent ='Responder';
+        btnDel.textContent ='Deletar';
+
+        // Cria a modal
+        const modalResp = document.createElement('div');
+        modalResp.classList.add('modal-resp');
+        modalResp.innerHTML = `
+        <div class="modal-content">
+            <h3>Responder Mensagem</h3>
+            <p><strong>Assunto:</strong> ${item.assunto}</p>
+            <textarea placeholder="Digite sua resposta..." rows="5"></textarea>
+            <div class="modal-buttons">
+                <button class="btn-enviar">Enviar Resposta</button>
+                <button class="btn-cancelar">Cancelar</button>
+            </div>
+        </div>`;
+        modalResp.style.display = 'none';
         
         // Adiciona evento
         header.addEventListener('click', function() {
@@ -113,11 +137,25 @@ function listaMsg(dados) {
                 content.classList.add('active');
             }
         });
+
+        // Adiciona evento ao botao responder
+        btnResp.addEventListener('click', function(e){
+            e.stopPropagation();
+            lista.style.display = 'none';
+            modalResp.style.display = 'flex';
+            
+
+        });
         
         // Monta a estrutura
+        btnRespContainer.appendChild(btnResp);
+        btnRespContainer.appendChild(btnDel);
+        content.appendChild(btnRespContainer);
         container.appendChild(header);
         container.appendChild(content);
         lista.appendChild(container);
+        
+        
     });
 }
 
