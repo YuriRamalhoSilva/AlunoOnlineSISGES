@@ -55,6 +55,28 @@ form.addEventListener('submit', function(event){
         hasError = true;
         msgs.push("Adicione a nota de TRABALHO do aluno!");
     }
+    if (parseFloat(dados.get('pri-prova').trim()) > 5) {
+        hasError = true;
+        msgs.push("A nota da PRIMEIRA PROVA não pode ser maior que 5!");
+    }
+    if (parseFloat(dados.get('seg-prova').trim()) > 10) {
+        hasError = true;
+        msgs.push("A nota da SEGUNDA PROVA não pode ser maior que 10!");
+    }
+    if (parseFloat(dados.get('atv').trim()) > 3) {
+        hasError = true;
+        msgs.push("A nota de ATIVIDADE não pode ser maior que 3!");
+    }
+    if (parseFloat(dados.get('conc').trim()) > 2) {
+        hasError = true;
+        msgs.push("A nota de CONCEITO não pode ser maior que 2!");
+    }
+    if (parseFloat(dados.get('trab').trim()) > 5) {
+        hasError = true;
+        msgs.push("A nota de TRABALHO não pode ser maior que 5!");
+    }
+    
+   
 
     if (hasError) {
         lisVali.innerHTML = msgs.map(msg => `<li>${msg}</li>`).join('');
