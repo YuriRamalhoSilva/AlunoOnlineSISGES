@@ -93,6 +93,7 @@ main {
 .accord-header::after {
     content: '+';
     font-size: 20px;
+    margin-right: 10px;
 }
 
 .accord-header.active::after {
@@ -102,6 +103,7 @@ main {
 .accord-header span {
     flex-grow: 1;
     text-align: center;
+    
 }
 
 .accord-content {
@@ -166,10 +168,7 @@ option {
     width: 100%;
 }
 
-.formulari {
-    display: flex;
-    flex-direction: column;
-}
+
 
 .div1,
 .div2 {
@@ -407,7 +406,119 @@ ul#vali li {
 }
 
 
-form {
-    gap: 30px;
-    display: flex;
+
+@media only screen and (max-width: 600px) {
+    html {
+        font-size: 13px;
+    }
+    .accord-header {
+        width: 400px;
+        padding-inline: 0;
+    }
+    .accord {
+        display: block;
+
+        width: 400px;
+    }
+    .accord-header::after {
+        margin-right: 10px;
+    }
+    input{
+        width: 50px;
+    }
+    .accord-content {
+        display: flex;
+        flex-direction: column;
+        
+    }
+    select{
+        width: 66px;
+    }
+    
+    
+    
+}
+@media only screen and (max-width: 992px) {
+    html {
+        font-size: 13px;
+    }
+    .accord-header {
+        width: 400px;
+        padding-inline: 0;
+    }
+    .accord {
+        display: block;
+
+        width: 400px;
+    }
+    .accord-header::after {
+        margin-right: 10px;
+    }
+    input{
+        width: 50px;
+    }
+    .accord-content {
+        display: flex;
+        flex-direction: column;
+        
+    }
+    select{
+        width: 66px;
+    }
+    form{
+        display: flex;
+        justify-content: center;
+    }
+    .div-table{
+        padding-inline: 0;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    .formulario{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+}
+
+@media only screen and (min-width: 992px) {
+    html {
+        font-size: 16px;
+    }
+    .accord-header {
+        background-color: aliceblue;
+        padding: 4px;
+        height: 20px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+    .accord {
+    
+        border: 1px solid rgb(97, 97, 97);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .accord-header::after{
+        font-size: 20px;
+        margin-right: 10px;
+    }
+    input{
+        width: 150px;
+    }
+    .accord-content{
+        display: flex;
+        flex-direction: row;
+        max-height: 0;
+        max-width: 500px;
+    }
+    select {
+        width: 167px;
+        
+    }
 }
