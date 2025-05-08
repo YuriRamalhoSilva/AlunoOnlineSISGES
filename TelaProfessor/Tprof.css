@@ -148,6 +148,12 @@ input {
     border-radius: 4px;
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 select {
     width: 167px;
     height: 32px;
@@ -383,15 +389,23 @@ button:hover {
 }
 /* Estilos para lista temporária */
 ul#vali {
-    padding: 20px;
-    margin: 12px;
-    border: 1px solid black;
+    display: none;
+    padding: 5px;
+    margin-inline: 70px;
+    border: 1px solid rgb(255, 0, 0);
     border-radius: 5px;
+    font-size: 12px;
+    background-color: rgb(255, 146, 146);
+    text-align: left;
+    
 }
 
 ul#vali li {
     list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 2px;
 }
+
 
 form {
     gap: 30px;

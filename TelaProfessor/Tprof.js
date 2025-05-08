@@ -27,34 +27,43 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Seção Notas
 
-
+let lisVali = document.getElementById('vali');
 let form = document.getElementById('form-notas');
 form.addEventListener('submit', function(event){
     event.preventDefault();
-    let dados = new FormData(event)
+    let dados = new FormData(form);
     let hasError = false;
-
-        // console.log([
-        //     dados,
-        //     dados.get('pri-prova'),
-        //     dados.get('seg-prova'),
-        //     dados.get('nota'),
-        //     dados.get('conc'),
-        //     dados.get('trab')
-        // ])
-    
-
     let  msgs = [];
-    if (dados.get('pri-prova').trim().length == 0) {
-        alert('coloque o valor')
-        hasError = true;
-        msgs.push("Adicione essa nota")
-
-    }
     
-    else{
+    if (dados.get('pri-prova').trim().length == 0) {
+        hasError = true;
+        msgs.push("Adicione a nota da PRIMEIRA PROVA do aluno!");
+    }
+    if (dados.get('seg-prova').trim().length == 0) {
+        hasError = true;
+        msgs.push("Adicione a nota da SEGUNDA PROVA do aluno!");
+    }
+    if (dados.get('atv').trim().length == 0) {
+        hasError = true;
+        msgs.push("Adicione a nota de ATIVIDADES do aluno!");
+    }
+    if (dados.get('conc').trim().length == 0) {
+        hasError = true;
+        msgs.push("Adicione a nota de CONCEITO do aluno!");
+    }
+    if (dados.get('trab').trim().length == 0) {
+        hasError = true;
+        msgs.push("Adicione a nota de TRABALHO do aluno!");
+    }
+
+    if (hasError) {
+        lisVali.innerHTML = msgs.map(msg => `<li>${msg}</li>`).join('');
+        lisVali.style.display = 'block';
+    } else {
+        lisVali.style.display = 'none';
         form.submit();
     }
+
 
 })
 
