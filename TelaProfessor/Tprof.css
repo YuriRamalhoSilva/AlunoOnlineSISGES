@@ -217,6 +217,57 @@ td {
     background-color: white;
 }
 
+.edit-btn {
+    background-color: #4CAF50; 
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    margin: 2px;
+}
+
+.edit-btn:hover {
+    background-color: #45a049; 
+    transform: translateY(-1px);
+}
+
+.delete-btn {
+    background-color: #f44336; 
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    margin: 2px;
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f; 
+    transform: translateY(-1px);
+}
+
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    padding: 8px;
+    border: none;
+    border-bottom:2px solid #000000 ;
+    border-right:2px solid #000000;
+    
+}
+.grade-input{
+    padding: 8px;
+    max-width: 50px;
+    
+}
+
 /* Estilos para lista de mensagens */
 .div-msg {
     width: calc(100% - 40px);
