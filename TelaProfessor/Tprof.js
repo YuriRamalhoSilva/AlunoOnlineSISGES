@@ -346,6 +346,7 @@ function configurarBotoesDeAcao() {
 }
 function alternarModoEdicao(linha) {
     const celulaNota = linha.querySelector('td:nth-child(3)');
+    const celulaTipo = linha.querySelector('td:nth-child(2)');
     const botao = linha.querySelector('.edit-btn');
     
     if (celulaNota.querySelector('input')) {
@@ -370,8 +371,10 @@ function alternarModoEdicao(linha) {
 }
 
 function salvarNota(linha) {
+    const tabela = document.getElementById('table-notas');
     const celulaNota = linha.querySelector('td:nth-child(3)');
     const celulaValor = linha.querySelector('td:nth-child(2)');
+    const celulaTipo = linha.querySelector('td:nth-child(1)'); 
     const campoInput = celulaNota.querySelector('input');
     const mensagemValidacao = document.getElementById('vali');
     
@@ -379,9 +382,9 @@ function salvarNota(linha) {
     
     const notaMaxima = parseFloat(celulaValor.textContent) || 0;
     const valorNota = campoInput.value.trim();
+    const tipoNota = celulaTipo.textContent.trim(); 
     let mensagens = [];
     
-
     if (valorNota === '') {
         mensagens.push('Digite um valor para a nota!');
     } else {
@@ -416,9 +419,34 @@ function salvarNota(linha) {
         dados[bimestre][chaveNota] = numeroNota;
         
         localStorage.setItem('notasEscolares', JSON.stringify(dados));
+        console.log('Dados atualizados:', dados); 
     }
 }
 
+function limparNota(linha) {
+    const tabela = document.getElementById('table-notas');
+    const celulaTipo = linha.querySelector('td:nth-child(1)'); 
+    
+    if (confirm('Tem certeza que deseja excluir esta nota?')) {
+        const celulaNota = linha.querySelector('td:nth-child(3)');
+        if (celulaNota) {
+            celulaNota.textContent = '-';
+            
+            const tituloBimestre = tabela.querySelector('h3').textContent;
+            const numeroBimestre = tituloBimestre.match(/(\d+)º/)[1];
+            const bimestre = `bim${numeroBimestre}`;
+            const tipoNota = celulaTipo.textContent.trim();
+
+            const dados = JSON.parse(localStorage.getItem('notasEscolares')) || {};
+            if (dados[bimestre]) {
+                const chaveNota = mapearChaveNota(tipoNota);
+                dados[bimestre][chaveNota] = 0; 
+                localStorage.setItem('notasEscolares', JSON.stringify(dados));
+                console.log('Dados após exclusão:', dados); 
+            }
+        }
+    }
+}
 
 function mapearChaveNota(tipoNota) {
     const mapeamento = {
@@ -430,35 +458,3 @@ function mapearChaveNota(tipoNota) {
     };
     return mapeamento[tipoNota] || tipoNota.toLowerCase();
 }
-
-function limparNota(linha) {
-    if (confirm('Tem certeza que deseja excluir esta nota?')) {
-        const celulaNota = linha.querySelector('td:nth-child(3)');
-        if (celulaNota) {
-            celulaNota.textContent = '-';
-            
-            const tituloBimestre = tabela.querySelector('h3').textContent;
-            const numeroBimestre = tituloBimestre.match(/(\d+)º/)[1];
-            const bimestre = `bim${numeroBimestre}`;
-
-
-            const dados = JSON.parse(localStorage.getItem('notasEscolares')) || {};
-            if (dados[bimestre]) {
-                const chaveNota = mapearChaveNota(tipoNota);
-                dados[bimestre][chaveNota] = 0; 
-                localStorage.setItem('notasEscolares', JSON.stringify(dados));
-            }
-        }
-    }
-}
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    configurarBotoesDeAcao();
-    
-    new MutationObserver((mutacoes) => {
-        if (mutacoes.some(m => m.addedNodes.length)) {
-            configurarBotoesDeAcao();
-        }
-    }).observe(document.body, { childList: true, subtree: true });
-});
