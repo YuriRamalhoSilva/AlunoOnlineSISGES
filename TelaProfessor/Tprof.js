@@ -1,5 +1,14 @@
 // JS das Seções gerais
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Carregando dados...');
+    carregarDados();
+    configurarBotoesDeAcao();
+    
+    setTimeout(() => {
+        console.log('Dados no localStorage:', JSON.parse(localStorage.getItem('notasEscolares')));
+        console.log('Conteúdo da tabela:', document.getElementById('table-notas').innerHTML);
+    }, 500);
+
     const headers = document.querySelectorAll('.accord-header')
 
     headers.forEach(header => {
@@ -24,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 });
+
 
 // Seção Notas
 
@@ -83,12 +93,105 @@ form.addEventListener('submit', function(event){
         lisVali.style.display = 'block';
     } else {
         lisVali.style.display = 'none';
-        form.submit();
+        
+
+        const bimestre = 'bim' + document.getElementById('bim').value.replace('bim', '');
+        const priProva = parseFloat(dados.get('pri-prova'));
+        const segProva = parseFloat(dados.get('seg-prova'));
+        const trab = parseFloat(dados.get('trab'));
+        const atv = parseFloat(dados.get('atv'));
+        const conc = parseFloat(dados.get('conc'));
+
+        salvarDados(bimestre, priProva, segProva, trab, atv, conc);
+        
+        atualizarTabela(bimestre);
+        
+        alert('Formulário enviado com sucesso!');
+
+        form.reset();
     }
 
 
 })
 
+function atualizarTabela(bimestre) {
+    const dados = JSON.parse(localStorage.getItem('notasEscolares'));
+    const bimestreDados = dados[bimestre];
+    
+    if (!bimestreDados) return;
+    
+
+    const tabela = document.getElementById('table-notas');
+    
+
+    const linhas = tabela.querySelectorAll('tr');
+    
+    linhas[1].querySelector('td:nth-child(3)').textContent = bimestreDados.priProva;
+    linhas[2].querySelector('td:nth-child(3)').textContent = bimestreDados.segProva;
+    linhas[3].querySelector('td:nth-child(3)').textContent = bimestreDados.trab;
+    linhas[4].querySelector('td:nth-child(3)').textContent = bimestreDados.atv;
+    linhas[5].querySelector('td:nth-child(3)').textContent = bimestreDados.conc;
+
+
+    const tituloTabela = tabela.querySelector('h3');
+    if (tituloTabela) {
+        tituloTabela.textContent = `${bimestre.replace('bim', '')}º Bimestre`;
+    }
+}
+
+function salvarDados(bimestre, priProva, segProva, trab, atv, conc) {
+
+    const chaveBimestre = bimestre.startsWith('bim') ? bimestre : `bim${bimestre}`;
+    
+    const dados = JSON.parse(localStorage.getItem('notasEscolares')) || {};
+    
+    dados[chaveBimestre] = {
+        priProva: priProva || 0,
+        segProva: segProva || 0,
+        trab: trab || 0,
+        atv: atv || 0,
+        conc: conc || 0
+    };
+    
+    localStorage.setItem('notasEscolares', JSON.stringify(dados));
+    console.log('Dados salvos:', dados); 
+}
+
+function carregarDados() {
+    const dadosSalvos = JSON.parse(localStorage.getItem('notasEscolares'));
+    if (!dadosSalvos) return;
+
+    const tabela = document.getElementById('table-notas');
+    if (!tabela) return;
+
+    const titulo = tabela.querySelector('h3');
+    if (!titulo) return;
+    
+    const numeroBimestre = titulo.textContent.match(/(\d+)º/)[1];
+    const chaveBimestre = 'bim' + numeroBimestre;
+    
+    const dadosBimestre = dadosSalvos[chaveBimestre];
+    if (!dadosBimestre) return;
+
+
+    const mapeamentoLinhas = {
+        1: 'priProva',  
+        2: 'segProva',  
+        3: 'trab',      
+        4: 'atv',       
+        5: 'conc'       
+    };
+
+
+    const linhas = tabela.querySelectorAll('tr:not(:first-child)');
+    linhas.forEach((linha, index) => {
+        const chaveNota = mapeamentoLinhas[index + 1]; 
+        if (chaveNota && dadosBimestre[chaveNota] !== undefined) {
+            const celulaNota = linha.querySelector('td:nth-child(3)');
+            celulaNota.textContent = dadosBimestre[chaveNota] === 0 ? '-' : dadosBimestre[chaveNota];
+        }
+    });
+}
 
 // Lista de Mensagens
 let dados = [];
@@ -113,21 +216,21 @@ function listaMsg(dados) {
     lista.innerHTML = '';
     
     dados.forEach(item => {
-        // Cria container completo do accordion
+
         const container = document.createElement('div');
         container.classList.add('accord-container-li');
         
-        // Cria cabeçalho
+
         const header = document.createElement('div');
         header.classList.add('accord-header-li', 'prioridade-'+item.prioridade);
         header.innerHTML = `<span>${item.assunto}</span>`;
         
-        // Cria conteúdo
+
         const content = document.createElement('div');
         content.classList.add('accord-content-li');
         content.innerHTML = `<p>${item.texto}</p>`;
 
-        // Cria botões na mensagem
+
         const btnRespContainer = document.createElement('div');
         btnRespContainer.classList.add('btnresp-container');
         const btnResp = document.createElement('button');
@@ -135,7 +238,7 @@ function listaMsg(dados) {
         btnResp.textContent ='Responder';
         btnDel.textContent ='Deletar';
 
-        // Cria a modal
+
         const modalResp = document.createElement('div');
         modalResp.classList.add('modal-resp');
         modalResp.innerHTML = `
@@ -150,11 +253,11 @@ function listaMsg(dados) {
         </div>`;
         modalResp.style.display = 'none';
         
-        // Adiciona evento
+
         header.addEventListener('click', function() {
             const isActive = this.classList.contains('active');
             
-            // Fecha todos os outros
+
             document.querySelectorAll('.accord-header-li').forEach(h => {
                 h.classList.remove('active');
             });
@@ -162,14 +265,14 @@ function listaMsg(dados) {
                 c.classList.remove('active');
             });
             
-            // Abre o atual se não estava ativo
+
             if (!isActive) {
                 this.classList.add('active');
                 content.classList.add('active');
             }
         });
 
-        // Adiciona evento ao botao responder
+
         btnResp.addEventListener('click', function(e){
             e.stopPropagation();
             lista.style.display = 'none';
@@ -178,7 +281,7 @@ function listaMsg(dados) {
 
         });
         
-        // Monta a estrutura
+
         btnRespContainer.appendChild(btnResp);
         btnRespContainer.appendChild(btnDel);
         content.appendChild(btnRespContainer);
@@ -209,37 +312,41 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
 function configurarBotoesDeAcao() {
-    document.querySelectorAll('.div-table table').forEach(tabela => {
-        if (!tabela.querySelector('th:last-child')?.textContent.includes('Ações')) {
-            const cabecalho = document.createElement('th');
-            cabecalho.textContent = 'Ações';
-            tabela.querySelector('tr').appendChild(cabecalho);
-        }
 
-        tabela.querySelectorAll('tr:not(:first-child)').forEach(linha => {
-            if (!linha.querySelector('.action-buttons')) {
-                const celula = document.createElement('td');
-                celula.className = 'action-buttons';
-                
-                const botaoEditar = document.createElement('button');
-                botaoEditar.textContent = 'Editar';
-                botaoEditar.className = 'edit-btn';
-                botaoEditar.addEventListener('click', () => alternarModoEdicao(linha));
-                
-                const botaoExcluir = document.createElement('button');
-                botaoExcluir.textContent = 'Excluir';
-                botaoExcluir.className = 'delete-btn';
-                botaoExcluir.addEventListener('click', () => limparNota(linha));
-                
-                celula.append(botaoEditar, botaoExcluir);
-                linha.appendChild(celula);
-            }
-        });
+    const tabela = document.getElementById('table-notas');
+    if (!tabela) return;
+
+
+    if (!tabela.querySelector('th:last-child')?.textContent.includes('Ações')) {
+        const cabecalho = document.createElement('th');
+        cabecalho.textContent = 'Ações';
+        tabela.querySelector('tr').appendChild(cabecalho);
+    }
+
+
+    tabela.querySelectorAll('tr:not(:first-child)').forEach(linha => {
+        if (!linha.querySelector('.action-buttons')) {
+            const celula = document.createElement('td');
+            celula.className = 'action-buttons';
+            
+            const botaoEditar = document.createElement('button');
+            botaoEditar.textContent = 'Editar';
+            botaoEditar.className = 'edit-btn';
+            botaoEditar.addEventListener('click', () => alternarModoEdicao(linha));
+            
+            const botaoExcluir = document.createElement('button');
+            botaoExcluir.textContent = 'Excluir';
+            botaoExcluir.className = 'delete-btn';
+            botaoExcluir.addEventListener('click', () => limparNota(linha));
+            
+            celula.append(botaoEditar, botaoExcluir);
+            linha.appendChild(celula);
+        }
     });
 }
-
 function alternarModoEdicao(linha) {
     const celulaNota = linha.querySelector('td:nth-child(3)');
+    const celulaTipo = linha.querySelector('td:nth-child(2)');
     const botao = linha.querySelector('.edit-btn');
     
     if (celulaNota.querySelector('input')) {
@@ -264,8 +371,10 @@ function alternarModoEdicao(linha) {
 }
 
 function salvarNota(linha) {
+    const tabela = document.getElementById('table-notas');
     const celulaNota = linha.querySelector('td:nth-child(3)');
     const celulaValor = linha.querySelector('td:nth-child(2)');
+    const celulaTipo = linha.querySelector('td:nth-child(1)'); 
     const campoInput = celulaNota.querySelector('input');
     const mensagemValidacao = document.getElementById('vali');
     
@@ -273,6 +382,7 @@ function salvarNota(linha) {
     
     const notaMaxima = parseFloat(celulaValor.textContent) || 0;
     const valorNota = campoInput.value.trim();
+    const tipoNota = celulaTipo.textContent.trim(); 
     let mensagens = [];
     
     if (valorNota === '') {
@@ -295,23 +405,56 @@ function salvarNota(linha) {
     } else {
         mensagemValidacao.style.display = 'none';
         const numeroNota = parseFloat(valorNota);
-        celulaNota.textContent = numeroNota % 1 === 0 ? numeroNota.toString() : numeroNota.toFixed(1);
+        const notaFormatada = numeroNota % 1 === 0 ? numeroNota.toString() : numeroNota.toFixed(1);
+        celulaNota.textContent = notaFormatada;
+
+        const tituloBimestre = tabela.querySelector('h3').textContent;
+        const numeroBimestre = tituloBimestre.match(/(\d+)º/)[1];
+        const bimestre = `bim${numeroBimestre}`;
+
+        const dados = JSON.parse(localStorage.getItem('notasEscolares')) || {};
+        if (!dados[bimestre]) dados[bimestre] = {};
+        
+        const chaveNota = mapearChaveNota(tipoNota);
+        dados[bimestre][chaveNota] = numeroNota;
+        
+        localStorage.setItem('notasEscolares', JSON.stringify(dados));
+        console.log('Dados atualizados:', dados); 
     }
 }
 
 function limparNota(linha) {
+    const tabela = document.getElementById('table-notas');
+    const celulaTipo = linha.querySelector('td:nth-child(1)'); 
+    
     if (confirm('Tem certeza que deseja excluir esta nota?')) {
         const celulaNota = linha.querySelector('td:nth-child(3)');
-        if (celulaNota) celulaNota.textContent = '-';
+        if (celulaNota) {
+            celulaNota.textContent = '-';
+            
+            const tituloBimestre = tabela.querySelector('h3').textContent;
+            const numeroBimestre = tituloBimestre.match(/(\d+)º/)[1];
+            const bimestre = `bim${numeroBimestre}`;
+            const tipoNota = celulaTipo.textContent.trim();
+
+            const dados = JSON.parse(localStorage.getItem('notasEscolares')) || {};
+            if (dados[bimestre]) {
+                const chaveNota = mapearChaveNota(tipoNota);
+                dados[bimestre][chaveNota] = 0; 
+                localStorage.setItem('notasEscolares', JSON.stringify(dados));
+                console.log('Dados após exclusão:', dados); 
+            }
+        }
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    configurarBotoesDeAcao();
-    
-    new MutationObserver((mutacoes) => {
-        if (mutacoes.some(m => m.addedNodes.length)) {
-            configurarBotoesDeAcao();
-        }
-    }).observe(document.body, { childList: true, subtree: true });
-});
+function mapearChaveNota(tipoNota) {
+    const mapeamento = {
+        '1º Prova': 'priProva',
+        '2º Prova': 'segProva',
+        'Trabalhos': 'trab',
+        'Atividades': 'atv',
+        'Conceito': 'conc'
+    };
+    return mapeamento[tipoNota] || tipoNota.toLowerCase();
+}
