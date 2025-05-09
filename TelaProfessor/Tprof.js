@@ -55,6 +55,28 @@ form.addEventListener('submit', function(event){
         hasError = true;
         msgs.push("Adicione a nota de TRABALHO do aluno!");
     }
+    if (parseFloat(dados.get('pri-prova').trim()) > 5) {
+        hasError = true;
+        msgs.push("A nota da PRIMEIRA PROVA não pode ser maior que 5!");
+    }
+    if (parseFloat(dados.get('seg-prova').trim()) > 10) {
+        hasError = true;
+        msgs.push("A nota da SEGUNDA PROVA não pode ser maior que 10!");
+    }
+    if (parseFloat(dados.get('atv').trim()) > 3) {
+        hasError = true;
+        msgs.push("A nota de ATIVIDADE não pode ser maior que 3!");
+    }
+    if (parseFloat(dados.get('conc').trim()) > 2) {
+        hasError = true;
+        msgs.push("A nota de CONCEITO não pode ser maior que 2!");
+    }
+    if (parseFloat(dados.get('trab').trim()) > 5) {
+        hasError = true;
+        msgs.push("A nota de TRABALHO não pode ser maior que 5!");
+    }
+    
+   
 
     if (hasError) {
         lisVali.innerHTML = msgs.map(msg => `<li>${msg}</li>`).join('');
@@ -185,3 +207,111 @@ document.addEventListener('DOMContentLoaded', async () => {
     listaMsg(dados);
 });
 
+
+function configurarBotoesDeAcao() {
+    document.querySelectorAll('.div-table table').forEach(tabela => {
+        if (!tabela.querySelector('th:last-child')?.textContent.includes('Ações')) {
+            const cabecalho = document.createElement('th');
+            cabecalho.textContent = 'Ações';
+            tabela.querySelector('tr').appendChild(cabecalho);
+        }
+
+        tabela.querySelectorAll('tr:not(:first-child)').forEach(linha => {
+            if (!linha.querySelector('.action-buttons')) {
+                const celula = document.createElement('td');
+                celula.className = 'action-buttons';
+                
+                const botaoEditar = document.createElement('button');
+                botaoEditar.textContent = 'Editar';
+                botaoEditar.className = 'edit-btn';
+                botaoEditar.addEventListener('click', () => alternarModoEdicao(linha));
+                
+                const botaoExcluir = document.createElement('button');
+                botaoExcluir.textContent = 'Excluir';
+                botaoExcluir.className = 'delete-btn';
+                botaoExcluir.addEventListener('click', () => limparNota(linha));
+                
+                celula.append(botaoEditar, botaoExcluir);
+                linha.appendChild(celula);
+            }
+        });
+    });
+}
+
+function alternarModoEdicao(linha) {
+    const celulaNota = linha.querySelector('td:nth-child(3)');
+    const botao = linha.querySelector('.edit-btn');
+    
+    if (celulaNota.querySelector('input')) {
+        salvarNota(linha);
+        botao.textContent = 'Editar';
+    } else {
+        const valorAtual = celulaNota.textContent.trim();
+        celulaNota.innerHTML = `<input type="number" 
+                                    value="${valorAtual === '-' ? '' : valorAtual}" 
+                                    min="0" 
+                                    step="0.1"
+                                    class="grade-input">`;
+        
+        const campoInput = celulaNota.querySelector('input');
+        campoInput.focus();
+        botao.textContent = 'Salvar';
+        
+        campoInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') salvarNota(linha);
+        });
+    }
+}
+
+function salvarNota(linha) {
+    const celulaNota = linha.querySelector('td:nth-child(3)');
+    const celulaValor = linha.querySelector('td:nth-child(2)');
+    const campoInput = celulaNota.querySelector('input');
+    const mensagemValidacao = document.getElementById('vali');
+    
+    if (!campoInput) return;
+    
+    const notaMaxima = parseFloat(celulaValor.textContent) || 0;
+    const valorNota = campoInput.value.trim();
+    let mensagens = [];
+    
+    if (valorNota === '') {
+        mensagens.push('Digite um valor para a nota!');
+    } else {
+        const numeroNota = parseFloat(valorNota);
+        if (isNaN(numeroNota)) {
+            mensagens.push('Digite um valor numérico válido!');
+        } else if (numeroNota < 0) {
+            mensagens.push('A nota não pode ser menor que 0!');
+        } else if (numeroNota > notaMaxima) {
+            mensagens.push(`A nota não pode ser maior que ${notaMaxima}!`);
+        }
+    }
+    
+    if (mensagens.length > 0) {
+        mensagemValidacao.innerHTML = mensagens.map(msg => `<li>${msg}</li>`).join('');
+        mensagemValidacao.style.display = 'block';
+        campoInput.focus();
+    } else {
+        mensagemValidacao.style.display = 'none';
+        const numeroNota = parseFloat(valorNota);
+        celulaNota.textContent = numeroNota % 1 === 0 ? numeroNota.toString() : numeroNota.toFixed(1);
+    }
+}
+
+function limparNota(linha) {
+    if (confirm('Tem certeza que deseja excluir esta nota?')) {
+        const celulaNota = linha.querySelector('td:nth-child(3)');
+        if (celulaNota) celulaNota.textContent = '-';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    configurarBotoesDeAcao();
+    
+    new MutationObserver((mutacoes) => {
+        if (mutacoes.some(m => m.addedNodes.length)) {
+            configurarBotoesDeAcao();
+        }
+    }).observe(document.body, { childList: true, subtree: true });
+});

@@ -20,51 +20,54 @@
                 <div class="accord-content">
                     <!-- LISTA PROVISÓRIA DO THIAGO -->
                     <form action="atualizar-nota" id="form-notas" method="post" class="div-notas">
-                        <div class="formulario">
+                        <div class="form">
+
                             <ul id="vali">
                                
                             </ul>
-                            <div class="div1">
-                                <div>
-                                    <label for="bim">Bimestre</label>
-                                    <select id="bim" name="Seletor de Bimestre" required>
-                                        
-                                        <option value="bim1">1º Bimestre</option>
-                                        <option value="bim1">2º Bimestre</option>
-                                        <option value="bim1">3º Bimestre</option>
-                                        <option value="bim1">4º Bimestre</option>
-                                    </select>
+                            <div class="formulario">
+                                <div class="div1">
+                                    <div>
+                                        <label for="bim">Bimestre</label>
+                                        <select id="bim" name="Seletor de Bimestre" required>
+                                            
+                                            <option value="bim1">1º Bimestre</option>
+                                            <option value="bim1">2º Bimestre</option>
+                                            <option value="bim1">3º Bimestre</option>
+                                            <option value="bim1">4º Bimestre</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="pri-prova" class="lbl">1º Prova</label>
+                                        <input id="pri-prova" type="number" name="pri-prova">
+            
+                                    </div>
+                                    <div>
+                                        <label for="seg-prova">2º Prova</label>
+                                        <input id="seg-prova" name="seg-prova" type="number">
+            
+                                    </div>
                                 </div>
-                                <div>
-                                    <label for="pri-prova" class="lbl">1º Prova</label>
-                                    <input id="pri-prova" type="number" name="pri-prova">
-        
+                                <div class="div2">
+                                    <div>
+            
+                                        <label for="trab">Trabalhos</label>
+                                        <input id="trab" name="trab" type="number">
+                                    </div>
+                                    <div>
+                                        <label for="atv">Atividades</label>
+                                        <input id="atv" name="atv" type="number">
+            
+                                    </div>
+                                    <div>
+                                        <label for="conc">Conceito</label>
+                                        <input id="conc" name="conc" type="number">
+            
+                                    </div>
                                 </div>
-                                <div>
-                                    <label for="seg-prova">2º Prova</label>
-                                    <input id="seg-prova" name="seg-prova" type="number">
-        
+                                <div class="container-btn">
+                                    <button id="enviar" type="submit">Enviar</button>
                                 </div>
-                            </div>
-                            <div class="div2">
-                                <div>
-                                    <label for="atv">Atividades</label>
-                                    <input id="atv" name="atv" type="number">
-        
-                                </div>
-                                <div>
-                                    <label for="conc">Conceito</label>
-                                    <input id="conc" name="conc" type="number">
-        
-                                </div>
-                                <div>
-        
-                                    <label for="trab">Trabalhos</label>
-                                    <input id="trab" name="trab" type="number">
-                                </div>
-                            </div>
-                            <div class="container-btn">
-                                <button id="enviar" type="submit">Enviar</button>
                             </div>
                         </div>
                     </form>
@@ -100,7 +103,7 @@
                                 
                             </tr>
                             <tr>
-                                <td>Caderno</td>
+                                <td>Atividades</td>
                                 <td>3</td>
                                 <td>-</td>
                                 <td>1.8</td>
