@@ -193,123 +193,6 @@ function carregarDados() {
     });
 }
 
-// Lista de Mensagens
-let dados = [];
-
-async function loadData() {
-    try {
-        const resp = await fetch('mensagens.json');
-        if (!resp.ok) {
-            throw new Error('Erro ao carregar dados do json.');
-        }
-        dados = await resp.json();
-        return dados;
-    } catch (error) {
-        console.error('Erro: ', error);
-    }
-}
-
-const containerLista = document.getElementById('div-msg');
-const lista = document.getElementById('mensagem-lista');
-
-function listaMsg(dados) {
-    lista.innerHTML = '';
-    
-    dados.forEach(item => {
-
-        const container = document.createElement('div');
-        container.classList.add('accord-container-li');
-        
-
-        const header = document.createElement('div');
-        header.classList.add('accord-header-li', 'prioridade-'+item.prioridade);
-        header.innerHTML = `<span>${item.assunto}</span>`;
-        
-
-        const content = document.createElement('div');
-        content.classList.add('accord-content-li');
-        content.innerHTML = `<p>${item.texto}</p>`;
-
-
-        const btnRespContainer = document.createElement('div');
-        btnRespContainer.classList.add('btnresp-container');
-        const btnResp = document.createElement('button');
-        const btnDel = document.createElement('button');
-        btnResp.textContent ='Responder';
-        btnDel.textContent ='Deletar';
-
-
-        const modalResp = document.createElement('div');
-        modalResp.classList.add('modal-resp');
-        modalResp.innerHTML = `
-        <div class="modal-content">
-            <h3>Responder Mensagem</h3>
-            <p><strong>Assunto:</strong> ${item.assunto}</p>
-            <textarea placeholder="Digite sua resposta..." rows="5"></textarea>
-            <div class="modal-buttons">
-                <button class="btn-enviar">Enviar Resposta</button>
-                <button class="btn-cancelar">Cancelar</button>
-            </div>
-        </div>`;
-        modalResp.style.display = 'none';
-        
-
-        header.addEventListener('click', function() {
-            const isActive = this.classList.contains('active');
-            
-
-            document.querySelectorAll('.accord-header-li').forEach(h => {
-                h.classList.remove('active');
-            });
-            document.querySelectorAll('.accord-content-li').forEach(c => {
-                c.classList.remove('active');
-            });
-            
-
-            if (!isActive) {
-                this.classList.add('active');
-                content.classList.add('active');
-            }
-        });
-
-
-        btnResp.addEventListener('click', function(e){
-            e.stopPropagation();
-            lista.style.display = 'none';
-            modalResp.style.display = 'flex';
-            
-
-        });
-        
-
-        btnRespContainer.appendChild(btnResp);
-        btnRespContainer.appendChild(btnDel);
-        content.appendChild(btnRespContainer);
-        container.appendChild(header);
-        container.appendChild(content);
-        lista.appendChild(container);
-        
-        
-    });
-}
-
-
-document.getElementById('ordenar-pri').addEventListener('click', function(){
-    lista.innerHTML = '';
-    dados.sort(function(a,b){
-        return a.prioridade > b.prioridade ? -1 : 1
-    })
-    dados.forEach(function(){
-        listaMsg(dados)
-    })
-})
-
-
-document.addEventListener('DOMContentLoaded', async () => {
-    const dados = await loadData();
-    listaMsg(dados);
-});
-
 
 function configurarBotoesDeAcao() {
 
@@ -458,3 +341,121 @@ function mapearChaveNota(tipoNota) {
     };
     return mapeamento[tipoNota] || tipoNota.toLowerCase();
 }
+
+
+// Lista de Mensagens
+let dados = [];
+
+async function loadData() {
+    try {
+        const resp = await fetch('mensagens.json');
+        if (!resp.ok) {
+            throw new Error('Erro ao carregar dados do json.');
+        }
+        dados = await resp.json();
+        return dados;
+    } catch (error) {
+        console.error('Erro: ', error);
+    }
+}
+
+const containerLista = document.getElementById('div-msg');
+const lista = document.getElementById('mensagem-lista');
+
+function listaMsg(dados) {
+    lista.innerHTML = '';
+    
+    dados.forEach(item => {
+
+        const container = document.createElement('div');
+        container.classList.add('accord-container-li');
+        
+
+        const header = document.createElement('div');
+        header.classList.add('accord-header-li', 'prioridade-'+item.prioridade);
+        header.innerHTML = `<span>${item.assunto}</span>`;
+        
+
+        const content = document.createElement('div');
+        content.classList.add('accord-content-li');
+        content.innerHTML = `<p>${item.texto}</p>`;
+
+
+        const btnRespContainer = document.createElement('div');
+        btnRespContainer.classList.add('btnresp-container');
+        const btnResp = document.createElement('button');
+        const btnDel = document.createElement('button');
+        btnResp.textContent ='Responder';
+        btnDel.textContent ='Deletar';
+
+
+        const modalResp = document.createElement('div');
+        modalResp.classList.add('modal-resp');
+        modalResp.innerHTML = `
+        <div class="modal-content">
+            <h3>Responder Mensagem</h3>
+            <p><strong>Assunto:</strong> ${item.assunto}</p>
+            <textarea placeholder="Digite sua resposta..." rows="5"></textarea>
+            <div class="modal-buttons">
+                <button class="btn-enviar">Enviar Resposta</button>
+                <button class="btn-cancelar">Cancelar</button>
+            </div>
+        </div>`;
+        modalResp.style.display = 'none';
+        
+
+        header.addEventListener('click', function() {
+            const isActive = this.classList.contains('active');
+            
+
+            document.querySelectorAll('.accord-header-li').forEach(h => {
+                h.classList.remove('active');
+            });
+            document.querySelectorAll('.accord-content-li').forEach(c => {
+                c.classList.remove('active');
+            });
+            
+
+            if (!isActive) {
+                this.classList.add('active');
+                content.classList.add('active');
+            }
+        });
+
+
+        btnResp.addEventListener('click', function(e){
+            e.stopPropagation();
+            lista.style.display = 'none';
+            modalResp.style.display = 'flex';
+            
+
+        });
+        
+
+        btnRespContainer.appendChild(btnResp);
+        btnRespContainer.appendChild(btnDel);
+        content.appendChild(btnRespContainer);
+        container.appendChild(header);
+        container.appendChild(content);
+        lista.appendChild(container);
+        
+        
+    });
+}
+
+
+document.getElementById('ordenar-pri').addEventListener('click', function(){
+    lista.innerHTML = '';
+    dados.sort(function(a,b){
+        return a.prioridade > b.prioridade ? -1 : 1
+    })
+    dados.forEach(function(){
+        listaMsg(dados)
+    })
+})
+
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const dados = await loadData();
+    listaMsg(dados);
+});
