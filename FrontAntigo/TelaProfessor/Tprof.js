@@ -86,7 +86,7 @@ form.addEventListener('submit', function(event){
         msgs.push("A nota de TRABALHO não pode ser maior que 5!");
     }
     
-   
+    
 
     if (hasError) {
         lisVali.innerHTML = msgs.map(msg => `<li>${msg}</li>`).join('');
