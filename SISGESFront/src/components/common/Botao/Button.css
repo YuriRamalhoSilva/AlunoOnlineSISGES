@@ -1,0 +1,26 @@
+.btn {
+    padding: 20px;
+    background-color: aliceblue;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.btn:hover {
+    background-color: lightblue;
+    cursor: pointer;
+}
+
+.btn:disabled {
+    background-color: lightgray;
+    border: 2px solid gray;
+    cursor: not-allowed;
+}
+
+.primary-btn {
+    background-color: blue;
+    color: white;
+}
+
+.primary-btn:hover {
+    background-color: darkblue;
+}

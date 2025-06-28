@@ -1,0 +1,26 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+
+
+footer {
+    background-color:#727272;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 10px;
+    font-size: 10px;
+    position: sticky;
+    top: 100%;
+}
+body {
+    text-align: center;
+    flex: 1;
+    padding: 20px;
+    background-color: rgb(196, 195, 195);
+    margin: 0;
+    
+}
